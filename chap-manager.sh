@@ -79,8 +79,8 @@ done
 case $action in
     ADD)
         [[ -z $password ]] && usage >&2
-        [[ -z $server ]] && server='\*'
-        [[ -z $ip ]] && ip='\*'
+        [[ -z $server ]] && server='*'
+        [[ -z $ip ]] && ip='*'
 
         cnt=$(sed -rn "/^$username( |\t)+$server( |\t)+/p" /etc/ppp/chap-secrets | wc -l)
         if [[ $cnt -eq 0 ]]; then
