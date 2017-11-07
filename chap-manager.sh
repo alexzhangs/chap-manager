@@ -79,28 +79,28 @@ done
 case $action in
     ADD)
         [[ -z $password ]] && usage >&2
-        [[ -z $server ]] && server='*'
-        [[ -z $ip ]] && ip='*'
+        [[ -z $server ]] && server='\*'
+        [[ -z $ip ]] && ip='\*'
 
-        egrep -q "^$username[ \t]+$server[ \t]+" /etc/ppp/chap-secrets
-        if [[ $? -ne 0 ]]; then
-            echo "$username\t$server\t$password\t$ip" >> /etc/ppp/chap-secrets || exit $?
+        cnt=$(sed -rn "^$username( |\t)+$server( |\t)+" /etc/ppp/chap-secrets | wc -l)
+        if [[ $cnt -eq 0 ]]; then
+            printf "%s\t%s\t%s\t%s\n" "$username" "$server" "$password" "$ip" >> /etc/ppp/chap-secrets || exit $?
         else
-            echo "The entry already exist within chap-secrets" >&2
+            echo "The entry already exists within chap-secrets" >&2
         fi
         ;;
     DEL)
         if [[ -z $server ]]; then
-            sed -ri "/^$username[ \t]+/d" /etc/ppp/chap-secrets || exit $?
+            sed -ri "/^$username( |\t)+/d" /etc/ppp/chap-secrets || exit $?
         else
-            sed -ri "/^$username[ \t]+$server[ \t]+/d" /etc/ppp/chap-secrets || exit $?
+            sed -ri "/^$username( |\t)+$server( |\t)+/d" /etc/ppp/chap-secrets || exit $?
         fi
         ;;
     GET)
         if [[ -z $server ]]; then
-            awk -v username=$username '{if ($1 == username) print}' /etc/ppp/chap-secrets || exit $?
+            sed -rn "/^$username( |\t)+/p" /etc/ppp/chap-secrets || exit $?
         else
-            awk -v username=$username -v server=$server '{if ($1 == username && $2 == server) print}' /etc/ppp/chap-secrets || exit $?
+            sed -rn "/^$username( |\t)+$server( |\t)+/p" /etc/ppp/chap-secrets || exit $?
         fi
         ;;
     *)
