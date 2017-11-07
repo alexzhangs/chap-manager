@@ -76,13 +76,16 @@ done
 
 [[ -z $username ]] && usage >&2
 
+regex_username="^$username( |\t)+"
+regex_username_and_server="^$username( |\t)+$server( |\t)+"
+
 case $action in
     ADD)
         [[ -z $password ]] && usage >&2
         [[ -z $server ]] && server='*'
         [[ -z $ip ]] && ip='*'
 
-        cnt=$(sed -rn "/^$username( |\t)+$server( |\t)+/p" /etc/ppp/chap-secrets | wc -l)
+        cnt=$(sed -rn "/$regex_username_and_server/p" /etc/ppp/chap-secrets | wc -l)
         if [[ $cnt -eq 0 ]]; then
             printf "%s\t%s\t%s\t%s\n" "$username" "$server" "$password" "$ip" >> /etc/ppp/chap-secrets || exit $?
         else
@@ -91,16 +94,16 @@ case $action in
         ;;
     DEL)
         if [[ -z $server ]]; then
-            sed -ri "/^$username( |\t)+/d" /etc/ppp/chap-secrets || exit $?
+            sed -ri "/regex_username/d" /etc/ppp/chap-secrets || exit $?
         else
-            sed -ri "/^$username( |\t)+$server( |\t)+/d" /etc/ppp/chap-secrets || exit $?
+            sed -ri "/$regex_username_and_server/d" /etc/ppp/chap-secrets || exit $?
         fi
         ;;
     GET)
         if [[ -z $server ]]; then
-            sed -rn "/^$username( |\t)+/p" /etc/ppp/chap-secrets || exit $?
+            sed -rn "/regex_username/p" /etc/ppp/chap-secrets || exit $?
         else
-            sed -rn "/^$username( |\t)+$server( |\t)+/p" /etc/ppp/chap-secrets || exit $?
+            sed -rn "/$regex_username_and_server/p" /etc/ppp/chap-secrets || exit $?
         fi
         ;;
     *)
