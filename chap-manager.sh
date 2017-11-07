@@ -105,7 +105,7 @@ case $action in
         ;;
     GET)
         if [[ -z $server ]]; then
-            sed -rn "/regex_username/p" /etc/ppp/chap-secrets || exit $?
+            sed -rn "/$regex_username/p" /etc/ppp/chap-secrets || exit $?
         else
             sed -rn "/$regex_username_and_server/p" /etc/ppp/chap-secrets || exit $?
         fi
