@@ -38,10 +38,10 @@ usage ()
     printf "\tAdd a new chap-secrets entry: 'steve * password *':\n\n"
     printf "\t${0##*/} -a ADD -u steve -p password\n\n"
 
-    printf "\tDelete all entries of steve.\n\n"
+    printf "\tDelete all entries of steve:\n\n"
     printf "\t${0##*/} -a DEL -u steve\n\n"
 
-    printf "\tGet all entries of steve.\n\n"
+    printf "\tGet all entries of steve:\n\n"
     printf "\t${0##*/} -a GET -u steve\n\n"
     exit 255
 }
@@ -84,7 +84,7 @@ case $action in
 
         egrep -q "^$username[ \t]+$server[ \t]+" /etc/ppp/chap-secrets
         if [[ $? -ne 0 ]]; then
-            echo "$username $server $password $ip" >> /etc/ppp/chap-secrets || exit $?
+            echo "$username\t$server\t$password\t$ip" >> /etc/ppp/chap-secrets || exit $?
         else
             echo "The entry already exist within chap-secrets" >&2
         fi
