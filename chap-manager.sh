@@ -2,7 +2,7 @@
 
 usage ()
 {
-    printf "Manager entries of /etc/chap-secrets\n"
+    printf "Manage entries of /etc/ppp/chap-secrets\n"
     printf "${0##*/}\n"
     printf "\t-a ACTION\n"
     printf "\t-u USERNAME/CLIENT\n"

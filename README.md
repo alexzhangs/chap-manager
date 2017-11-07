@@ -14,7 +14,7 @@ sudo sh chap-manager.sh/install.sh
 chap-manager.sh needs to be run under root.
 
 ```
-Manager entries of /etc/chap-secrets
+Manage entries of /etc/ppp/chap-secrets
 chap-manager.sh
 	-a ACTION
 	-u USERNAME/CLIENT
@@ -62,5 +62,5 @@ EXAMPLE
 
 	Get all entries of steve:
 
-chap-manager.sh -a GET -u steve
+    chap-manager.sh -a GET -u steve
 ```
