@@ -46,11 +46,6 @@ usage ()
     exit 255
 }
 
-timestamp ()
-{
-    date "+%Y-%m-%d% %H:%M:%S"
-    return $?
-}
 
 while getopts a:u:p:s:i:h opt; do
     case $opt in
