@@ -62,5 +62,5 @@ EXAMPLE
 
 	Get all entries of steve:
 
-    chap-manager.sh -a GET -u steve
+	chap-manager.sh -a GET -u steve
 ```
