@@ -82,7 +82,7 @@ case $action in
         [[ -z $server ]] && server='\*'
         [[ -z $ip ]] && ip='\*'
 
-        cnt=$(sed -rn "^$username( |\t)+$server( |\t)+" /etc/ppp/chap-secrets | wc -l)
+        cnt=$(sed -rn "/^$username( |\t)+$server( |\t)+/p" /etc/ppp/chap-secrets | wc -l)
         if [[ $cnt -eq 0 ]]; then
             printf "%s\t%s\t%s\t%s\n" "$username" "$server" "$password" "$ip" >> /etc/ppp/chap-secrets || exit $?
         else
