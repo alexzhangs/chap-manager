@@ -76,15 +76,19 @@ done
 
 [[ -z $username ]] && usage >&2
 
-regex_username="^$username( |\t)+"
-regex_username_and_server="^$username( |\t)+$server( |\t)+"
-
 case $action in
     ADD)
         [[ -z $password ]] && usage >&2
         [[ -z $server ]] && server='*'
         [[ -z $ip ]] && ip='*'
+        ;;
+esac
 
+regex_username="^$username( |\t)+"
+regex_username_and_server="^$username( |\t)+$server( |\t)+"
+
+case $action in
+    ADD)
         cnt=$(sed -rn "/$regex_username_and_server/p" /etc/ppp/chap-secrets | wc -l)
         if [[ $cnt -eq 0 ]]; then
             printf "%s\t%s\t%s\t%s\n" "$username" "$server" "$password" "$ip" >> /etc/ppp/chap-secrets || exit $?
