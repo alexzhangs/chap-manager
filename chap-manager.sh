@@ -98,7 +98,7 @@ case $action in
         ;;
     DEL)
         if [[ -z $server ]]; then
-            sed -ri "/regex_username/d" /etc/ppp/chap-secrets || exit $?
+            sed -ri "/$regex_username/d" /etc/ppp/chap-secrets || exit $?
         else
             sed -ri "/$regex_username_and_server/d" /etc/ppp/chap-secrets || exit $?
         fi
