@@ -66,6 +66,7 @@ while getopts a:u:p:s:i:h opt; do
             ;;
         h|*)
             usage
+            ;;
     esac
 done
 
